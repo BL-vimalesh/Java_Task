@@ -1,0 +1,36 @@
+show databases
+create database payroll_service
+use payroll_service
+show tables
+select * from employee_payroll
+insert into employee_payroll (name,salary,start_date) values
+('Bill',100000.0, '2018-01-20'),
+('Mark',200000.0, '2019-01-20'),
+('charlie',300000.0, '2020-01-20')
+
+uc - 8
+Alter table employee_payroll ADD phone_no varchar(2550) After name 
+Alter table employee_payroll ADD address varchar(250) After phone_no
+Alter table employee_payroll ADD department varchar(250) not null After address
+Alter table employee_payroll alter address SET default 'TDD'
+insert into employee_payroll (name,salary,start_date) values
+('martin',140000.0, '2024-01-20')
+
+describe employee_payroll
+
+uc - 9
+alter table employee_payroll rename column salary TO Basic_pay
+Alter table employee_payroll Add  Deductions Double Not null After Basic_pay
+Alter table employee_payroll Add  Taxable_Pay Double Not null After Deductions
+Alter table employee_payroll Add Income_Tax Double Not null AFter Taxable_Pay
+Alter table employee_payroll Add Net_Pay Double Not null After Income_Tax
+
+uc - 10
+update employee_payroll set department = 'sales' where name = 'Terisa'
+insert into employee_payroll
+(name,department, gender, basic_pay, deductions, taxable_pay, nex_pay,start) values
+('Terisa', 'marketing' , 'F', 50000.0, 10000.0, 20000.0, 890000.0, 90000.0, 8000.0, '2018-01-01')
+
+
+
+

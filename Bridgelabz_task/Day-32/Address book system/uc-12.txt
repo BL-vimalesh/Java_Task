@@ -1,0 +1,61 @@
+//Address book system
+uc - 12
+
+CREATE TABLE Contact (
+    FirstName   VARCHAR(150),
+    LastName    VARCHAR(150),
+    DateOfBirth DATE,
+    Gender      VARCHAR(150)
+);
+
+INSERT INTO Contact (FirstName, LastName, DateOfBirth, Gender)
+VALUES ('John', 'Doe', '1990-05-15', 'M');
+
+CREATE TABLE Address (
+    AddressID INT PRIMARY KEY AUTO_INCREMENT,  -- unique identifier for each address
+    Street    VARCHAR(255) NOT NULL,
+    City      VARCHAR(150) NOT NULL,
+    State     VARCHAR(100) NOT NULL,
+    ZipCode   VARCHAR(20) NOT NULL,
+    Country   VARCHAR(100) NOT NULL,
+    ContactID INT,
+    FOREIGN KEY (ContactID) REFERENCES Contact(ContactID)
+);
+
+
+INSERT INTO Address (Street, City, State, ZipCode, Country, ContactID)
+VALUES 
+('123 Main St', 'Springfield', 'IL', '62701', 'USA', 1),
+('456 Elm St', 'Springfield', 'IL', '62702', 'USA', 1);
+
+INSERT INTO PhoneNumber (Number, Type, ContactID)
+VALUES
+('555-1234', 'Mobile', 1),
+('555-5678', 'Home', 1);
+
+INSERT INTO Email (EmailAddress, Type, ContactID)
+VALUES
+('john.doe@example.com', 'Personal', 1),
+('johndoe@work.com', 'Work', 1);
+
+INSERT INTO GroupTable (GroupName)
+VALUES ('Friends');
+
+-- Assign contact to group
+INSERT INTO ContactGroup (ContactID, GroupID)
+VALUES (1, 1);
+
+SELECT c.FirstName, c.LastName, a.Street, a.City, p.Number, e.EmailAddress
+FROM Contact c
+LEFT JOIN Address a ON c.ContactID = a.ContactID
+LEFT JOIN PhoneNumber p ON c.ContactID = p.ContactID
+LEFT JOIN Email e ON c.ContactID = e.ContactID
+WHERE c.ContactID = 1;
+
+UPDATE Address
+SET Street = '789 Maple Ave'
+WHERE AddressID = 1;
+
+DELETE FROM Contact WHERE ContactID = 1;
+
+
