@@ -1,0 +1,43 @@
+// Address book
+uc-12
+
+uc-6
+SELECT c.ContactID, c.FirstName, c.LastName
+FROM Contact c
+JOIN Address a ON c.ContactID = a.ContactID
+WHERE a.City = 'Springfield';
+
+-- Retrieve persons in a specific state
+SELECT c.ContactID, c.FirstName, c.LastName
+FROM Contact c
+JOIN Address a ON c.ContactID = a.ContactID
+WHERE a.State = 'IL';
+
+uc-7
+SELECT a.City, COUNT(DISTINCT c.ContactID) AS PersonCount
+FROM Address a
+JOIN Contact c ON a.ContactID = c.ContactID
+GROUP BY a.City;
+
+-- Count by State
+SELECT a.State, COUNT(DISTINCT c.ContactID) AS PersonCount
+FROM Address a
+JOIN Contact c ON a.ContactID = c.ContactID
+GROUP BY a.State;
+
+uc - 8
+SELECT c.ContactID, c.FirstName, c.LastName
+FROM Contact c
+JOIN Address a ON c.ContactID = a.ContactID
+WHERE a.City = 'Springfield'
+ORDER BY c.FirstName, c.LastName;
+
+uc - 10
+SELECT p.Type, COUNT(DISTINCT p.ContactID) AS ContactCount
+FROM PhoneNumber p
+GROUP BY p.Type;
+
+-- Count Emails by Type
+SELECT e.Type, COUNT(DISTINCT e.ContactID) AS ContactCount
+FROM Email e
+GROUP BY e.Type;

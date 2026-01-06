@@ -1,0 +1,91 @@
+//uc - 11
+CREATE TABLE Department (
+    DepartmentID INT PRIMARY KEY,
+    DepartmentName VARCHAR(100),
+    Location VARCHAR(100)
+);
+
+CREATE TABLE Position (
+    PositionID INT PRIMARY KEY,
+    Title VARCHAR(50),
+    Grade VARCHAR(10)
+);
+
+CREATE TABLE Employee (
+    EmployeeID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Address VARCHAR(255),
+    Gender VARCHAR(10),
+    DateOfJoining DATE,
+    Salary DECIMAL(10, 2),
+    -- Foreign Keys
+    DepartmentID INT,
+    PositionID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID),
+    FOREIGN KEY (PositionID) REFERENCES Position(PositionID)
+);
+
+CREATE TABLE EmployeeDepartment (
+    EmployeeID INT,
+    DepartmentID INT,
+    PRIMARY KEY (EmployeeID, DepartmentID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
+    FOREIGN KEY (DepartmentID) REFERENCES Department(DepartmentID)
+);
+
+CREATE TABLE Payroll (
+    PayrollID INT PRIMARY KEY,
+    EmployeeID INT,
+    BasicPay DECIMAL(10, 2),
+    Deductions DECIMAL(10, 2),
+    TaxablePay DECIMAL(10, 2),
+    IncomeTax DECIMAL(10, 2),
+    NetPay DECIMAL(10, 2),
+    PayDate DATE,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+);
+
+INSERT INTO Department VALUES (1, 'HR', 'New York');
+INSERT INTO Department VALUES (2, 'IT', 'San Francisco');
+
+INSERT INTO Position VALUES (1, 'Manager', 'G5');
+INSERT INTO Position VALUES (2, 'Developer', 'G3');
+
+INSERT INTO Employee VALUES (1, 'John', 'Doe', '123 Elm St', 'Male', '2020-01-15', 60000, 1, 1);
+INSERT INTO Employee VALUES (2, 'Jane', 'Smith', '456 Maple Ave', 'Female', '2019-03-22', 55000, 2, 2);
+
+INSERT INTO EmployeeDepartment VALUES (1, 1);
+INSERT INTO EmployeeDepartment VALUES (2, 2);
+
+INSERT INTO Payroll VALUES (1, 1, 3000, 500, 2500, 500, 2000, '2023-07-31');
+INSERT INTO Payroll VALUES (2, 2, 2800, 400, 2400, 400, 2000, '2023-07-31');
+
+
+-- Sum of salaries by gender
+SELECT Gender, SUM(Salary) AS TotalSalary
+FROM Employee
+GROUP BY Gender;
+
+-- Average salary by gender
+SELECT Gender, AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY Gender;
+
+-- Minimum salary by gender
+SELECT Gender, MIN(Salary) AS MinSalary
+FROM Employee
+GROUP BY Gender;
+
+-- Maximum salary by gender
+SELECT Gender, MAX(Salary) AS MaxSalary
+FROM Employee
+GROUP BY Gender;
+
+-- Count of employees by gender
+SELECT Gender, COUNT(*) AS EmployeeCount
+FROM Employee
+GROUP BY Gender;
+
+
+
