@@ -1,0 +1,58 @@
+js 
+
+primitive data types: 
+number, String, boolean, symbol, undefined, Bigint(end with n), null
+
+non-primitive
+object, Array, function, 
+
+const -> means if the variable is fixed we will set as const const int a=10;
+
+normal function
+function add(a,b){
+   return a+b;
+   }
+   
+console.log(add(5,3));
+
+function expression
+const multiple = function multiply(a,b){
+    return a+b;
+	}
+	
+console.log(multiply(1,2));
+
+modern arrow function
+
+FunctionDeclaration	        Function Expression
+Hoisted	                     Not hoisted
+Named	                     Anonymous
+Called before definition	 Must define first
+
+
+Arrays
+we will use 
+For Adding
+push -> add value in the last of the array
+unshift -> add value in the begining
+
+for Deleting
+pop -> remove from the last of the array
+shift -> remove value in the begining
+
+copy the array
+let copy = [...fruits];
+
+for each loop
+fruits.forEach(function(fruit) {
+  console.log(fruit);
+});
+
+reduce, filter, map
+let fruit = [1,2,3,4,5];
+let add = fruit.map(maps => maps+10);
+let filter = fruit.filter(maps => maps % 2 == 0);
+console.log(add);
+console.log(filter);
+let values = [1,2,3,4,5]
+let reduce = values.reduce((Sum, values) => sum + values , 0); 
