@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Employee</title>
+  <link rel="stylesheet" href="form.css">
+</head>
+<body>
+  <h2>Employee Payroll Form</h2>
+  <form id="payrollForm">
+    <label>Name</label>
+    <input type="text" id="name" required>
+
+    <label>Gender</label>
+    <select id="gender" required>
+      <option value="">Select</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
+
+    <label>Department</label>
+    <input type="checkbox" value="HR"> HR
+    <input type="checkbox" value="Sales"> Sales
+    <input type="checkbox" value="Finance"> Finance
+
+    <label>Salary</label>
+    <input type="number" id="salary" required>
+
+    <label>Start Date</label>
+    <input type="date" id="startDate" required>
+
+    <label>Notes</label>
+    <textarea id="notes"></textarea>
+
+    <div>
+      <button type="button" onclick="cancel()">Cancel</button>
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+    </div>
+  </form>
+
+  <script src="form.js"></script>
+</body>
+</html>
