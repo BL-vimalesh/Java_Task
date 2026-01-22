@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UC 6 – Employee Payroll from Local Storage</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .emp-count {
+      background-color: #82a70c;
+      color: #fff;
+      border-radius: 50%;
+      padding: 5px 10px;
+      font-weight: bold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 15px;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 2px solid #D3D3D3;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #21515F;
+      color: white;
+    }
+
+    .dept-label {
+      background-color: #e9f9f9;
+      border-radius: 4px;
+      padding: 2px 6px;
+      margin-right: 5px;
+      display: inline-block;
+    }
+
+    .profile {
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    td img {
+      cursor: pointer;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2>Employee Details</h2>
+    <div class="emp-count">0</div>
+  </div>
+
+  <table id="table-display">
+    <!-- Table content will be injected by JS -->
+  </table>
+
+  <script>
+    let empPayrollList;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      empPayrollList = getEmployeePayrollDataFromStorage();
+      document.querySelector(".emp-count").textContent = empPayrollList.length;
+      createInnerHtml();
+      localStorage.removeItem('editEmp');
+    });
+
+    const getEmployeePayrollDataFromStorage = () => {
+      return localStorage.getItem('EmployeePayrollList')
+        ? JSON.parse(localStorage.getItem('EmployeePayrollList'))
+        : [];
+    };
+
+    const createInnerHtml = () => {
+      const headerHtml = `
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Department</th>
+          <th>Salary</th>
+          <th>Start Date</th>
+          <th>Actions</th>
+        </tr>`;
+
+      if (empPayrollList.length === 0) return;
+
+      let innerHtml = headerHtml;
+      for (const emp of empPayrollList) {
+        innerHtml += `
+        <tr>
+          <td><img class="profile" src="${emp._profilePic}" alt="Profile"></td>
+          <td>${emp._name}</td>
+          <td>${emp._gender}</td>
+          <td>${getDeptHtml(emp._department)}</td>
+          <td>${emp._salary}</td>
+          <td>${stringifyDate(emp._startDate)}</td>
+          <td>
+            <img id="${emp._id}" onclick="remove(this)" src="https://via.placeholder.com/18?text=D" alt="delete">
+            <img id="${emp._id}" onclick="update(this)" src="https://via.placeholder.com/18?text=E" alt="edit">
+          </td>
+        </tr>`;
+      }
+
+      document.querySelector('#table-display').innerHTML = innerHtml;
+    };
+
+    const getDeptHtml = (deptList) => {
+      return deptList.map(dept => `<div class='dept-label'>${dept}</div>`).join('');
+    };
+
+    const stringifyDate = (date) => {
+      const d = new Date(date);
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    };
+
+    function remove(elem) {
+      alert("Delete clicked for ID: " + elem.id);
+    }
+
+    function update(elem) {
+      alert("Edit clicked for ID: " + elem.id);
+    }
+  </script>
+
+</body>
+</html>
