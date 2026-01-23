@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <div>
+        <label>name</label>
+        <input type="text" class="name" required>
+        <label>city</label>
+        <input type="text" class="city" required>
+        <button onclick="addData()">submit</button>
+    </div>
+
+    <table id="dataTable" border="1">
+        <tr>
+            <th>Name</th>
+            <th>City</th>
+        </tr>
+    </table>
+
+    <script>
+        function addData() {
+            const name = document.querySelector('.name').value;
+            const city = document.querySelector('.city').value;
+
+            if(name && city) {
+                const table = document.getElementById('dataTable');
+                const newRow = table.insertRow();
+                newRow.insertCell(0).textContent = name;
+                newRow.insertCell(1).textContent = city;
+
+                document.querySelector('.name').value = '';
+                document.querySelector('.city').value = '';
+            } else {
+                alert("Please fill both fields");
+            }
+        }
+    </script>
+</body>
+</html>
