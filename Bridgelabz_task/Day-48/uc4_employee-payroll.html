@@ -1,0 +1,78 @@
+  <script>
+    const useLocalStorage = false;
+    const serverUrl = "http://127.0.0.1:3000/EmployeePayrollDB";
+    let empPayrollList = [];
+
+    window.addEventListener("DOMContentLoaded", () => {
+      if (useLocalStorage) {
+        getEmployeePayrollDataFromStorage();
+      } else {
+        getEmployeePayrollDataFromServer();
+      }
+    });
+
+    function getEmployeePayrollDataFromStorage() {
+      empPayrollList = localStorage.getItem("EmployeePayrollList")
+        ? JSON.parse(localStorage.getItem("EmployeePayrollList"))
+        : [];
+      processEmployeePayrollDataResponse();
+    }
+
+    function getEmployeePayrollDataFromServer() {
+      makeServiceCall("GET", serverUrl, true)
+        .then(responseText => {
+          empPayrollList = JSON.parse(responseText);
+          processEmployeePayrollDataResponse();
+        })
+        .catch(error => {
+          document.getElementById("errorMsg").textContent =
+            "GET Error: " + JSON.stringify(error);
+          empPayrollList = [];
+          processEmployeePayrollDataResponse();
+        });
+    }
+
+    function processEmployeePayrollDataResponse() {
+      document.querySelector(".emp-count").textContent =
+        "Total Employees: " + empPayrollList.length;
+      renderTable();
+      localStorage.removeItem("editEmp");
+    }
+
+    function renderTable() {
+      const tbody = document.querySelector("#empTable tbody");
+      tbody.innerHTML = empPayrollList.map(emp => `
+        <tr>
+          <td>${emp._name}</td>
+          <td>${emp._gender}</td>
+          <td>${emp._department.join(", ")}</td>
+          <td>₹ ${emp._salary}</td>
+          <td>${emp._startDate}</td>
+          <td>${emp._note || ""}</td>
+        </tr>
+      `).join("");
+    }
+
+    function makeServiceCall(method, url, async = true, data = null) {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = () => {
+          if (xhr.status.toString().startsWith("2")) {
+            resolve(xhr.responseText);
+          } else {
+            reject({ status: xhr.status, statusText: xhr.statusText });
+          }
+        };
+        xhr.onerror = () => reject({ status: xhr.status, statusText: xhr.statusText });
+        xhr.open(method, url, async);
+        if (data) {
+          xhr.setRequestHeader("Content-Type", "application/json");
+          xhr.send(JSON.stringify(data));
+        } else {
+          xhr.send();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
